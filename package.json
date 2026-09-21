@@ -1,0 +1,16 @@
+{
+  "name": "fold-reader-proof",
+  "version": "1.0.0",
+  "description": "折页阅读顺序校样 Web 应用：行列纸格正反标页码、逐步折叠模拟并输出封面到封底页码序列",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/fold.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

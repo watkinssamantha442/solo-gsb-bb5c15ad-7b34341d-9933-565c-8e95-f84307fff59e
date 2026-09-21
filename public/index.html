@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>折页阅读顺序校样</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>折页阅读顺序校样</h1>
+    <div class="topbar-actions">
+      <label class="scheme-name">
+        方案名
+        <input id="schemeName" type="text" placeholder="未命名折页方案" maxlength="40" />
+      </label>
+      <button id="btnNew" type="button">新建</button>
+      <button id="btnExport" type="button">导出 JSON</button>
+      <label class="file-btn">
+        导入 JSON
+        <input id="fileImport" type="file" accept="application/json,.json" hidden />
+      </label>
+      <button id="btnSave" type="button" class="primary">保存到服务器</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- 左侧控制面板 -->
+    <aside class="panel">
+      <nav class="tabs">
+        <button id="tabEdit" class="tab" type="button">① 编辑纸格</button>
+        <button id="tabFold" class="tab active" type="button">② 折叠校样</button>
+      </nav>
+
+      <!-- 编辑视图 -->
+      <section id="viewEdit" class="tab-body hidden">
+        <div class="grid-size">
+          <label>行数 <input id="inputRows" type="number" min="1" max="12" value="2" /></label>
+          <label>列数 <input id="inputCols" type="number" min="1" max="12" value="2" /></label>
+          <button id="btnApplySize" type="button">应用</button>
+        </div>
+        <p class="hint">在纸格上依次点击，输入该格<b>正面</b>与<b>反面</b>页码；也可使用自动编号。</p>
+        <div class="edit-tools">
+          <button id="btnAuto" type="button">自动正反编号</button>
+          <button id="btnClearLabels" type="button">清空页码</button>
+        </div>
+        <div class="cell-editor">
+          <label>当前格：<span id="editCellName">（点击纸格选择）</span></label>
+          <label>正面页码 <input id="inputFront" type="text" maxlength="12" placeholder="如 1" /></label>
+          <label>反面页码 <input id="inputBack" type="text" maxlength="12" placeholder="如 2" /></label>
+        </div>
+        <div class="saved-list">
+          <h3>已保存方案</h3>
+          <ul id="schemeList" class="scheme-list"></ul>
+        </div>
+      </section>
+
+      <!-- 折叠视图 -->
+      <section id="viewFold" class="tab-body">
+        <div class="fold-controls">
+          <p class="hint">选择方向后，点击画布上的<b>格线</b>执行折叠。绿色为合法折线，红色为冲突折线。</p>
+          <div class="dir-buttons">
+            <button class="dir" data-dir="U" type="button">向上折 ▲</button>
+            <div class="dir-row">
+              <button class="dir" data-dir="L" type="button">◀ 向左折</button>
+              <button class="dir" data-dir="R" type="button">向右折 ▶</button>
+            </div>
+            <button class="dir" data-dir="D" type="button">向下折 ▼</button>
+          </div>
+          <div id="foldMessage" class="fold-message"></div>
+        </div>
+
+        <div class="steps">
+          <h3>折叠步骤</h3>
+          <ol id="stepList" class="step-list"></ol>
+        </div>
+
+        <div class="replay">
+          <button id="btnFirst" type="button" title="回到初始">⏮</button>
+          <button id="btnPrev" type="button" title="上一步">◀</button>
+          <span id="stepIndicator" class="step-indicator">0 / 0</span>
+          <button id="btnNext" type="button" title="下一步">▶</button>
+          <button id="btnLast" type="button" title="到最终">⏭</button>
+          <button id="btnUndo" type="button">撤销末步</button>
+        </div>
+
+        <div class="result">
+          <h3>最终阅读顺序（封面 → 封底）</h3>
+          <div id="orderChips" class="order-chips"></div>
+          <p id="orderMeta" class="order-meta"></p>
+        </div>
+      </section>
+    </aside>
+
+    <!-- 右侧画布 -->
+    <section class="canvas-wrap">
+      <canvas id="canvas" width="900" height="640"></canvas>
+      <div id="canvasTip" class="canvas-tip"></div>
+    </section>
+  </main>
+
+  <script src="fold.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

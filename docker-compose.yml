@@ -1,0 +1,16 @@
+services:
+  fold-proof:
+    build: .
+    image: fold-reader-proof:latest
+    container_name: fold-reader-proof
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DATA_DIR=/app/data
+    volumes:
+      - fold-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  fold-data:
